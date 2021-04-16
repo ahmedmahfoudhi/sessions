@@ -16,23 +16,31 @@ session_start();
 
 
 <?php
-if(isset($SESSION['name'])){
-    ?> <p>Hello <bold><?= $SESSION['name'] ?></bold> Your visits : <?php echo $SESSION['visits']++?></p>
+if(isset($_SESSION['name']) && isset($_SESSION['visits'])){
+    ?> <p>Hello <bold><?= $_SESSION['name'] ?></bold> Your visits : <?php echo $_SESSION['visits']++?></p>
     <?php
 }else{
+    $_POST['nameVisitor'] = "";
     ?>
-    <form method="post">
+
+    <form method="POST" action="index.php">
         <div class="mb-3">
-            <label for="nameVisitor" class="form-label">Email address</label>
-            <input type="text" class="form-control" id="nameVisitor" aria-describedby="nameHelp">
+            <label for="nameVisitor" class="form-label">Name :</label>
+            <input type="text" class="form-control" id="nameVisitor" name="nameVisitor" aria-describedby="nameHelp">
             <button type="submit" class="btn btn-primary">Use my name!</button>
         </div>
 
     </form>
 <?php
-    $name = $_POST['nameVisitor'];
-    $SESSION['name'] = $name;
-    $SESSION['visits'] = 0;
+    if(isset($_POST['nameVisitor'])){
+        $name = $_POST['nameVisitor'];
+        echo $name . "<br>";
+        $_SESSION['name'] = $name;
+        $_SESSION['visits'] = 0;
+        header("index.php");
+    }
+
+
 }
 
 ?>
